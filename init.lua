@@ -10,5 +10,6 @@ end
 -- VSCode extension bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
 
+--NOTE: this is macbook setting
 -- treesitter compiler error fix
 require("nvim-treesitter.install").compilers = { "gcc-12" }

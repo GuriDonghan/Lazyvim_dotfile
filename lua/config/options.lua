@@ -23,6 +23,7 @@ vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20" -- sets vim.opt.
 -- vim.o.foldenable = true
 -- vim.o.foldcolumn = "0"
 
+--NOTE: this is macbook setting
 vim.g.python3_host_prog = "/Users/user/miniforge3/bin/python"
 
 vim.g.loaded_python_provider = 1
