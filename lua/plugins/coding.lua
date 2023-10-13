@@ -80,7 +80,7 @@ return {
     opts = {},
     keys = {
       {
-        "<leader>lc",
+        "<leader>cc",
         "<cmd>lua require('swenv.api').pick_venv()<cr>",
         desc = "Conda virtual env",
       },
