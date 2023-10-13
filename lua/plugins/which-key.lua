@@ -17,6 +17,7 @@ return {
         ["<leader>q"] = { name = "+ 󰩈 Quit/Session", mode = "n" },
         ["<leader>x"] = { name = "+ 󰁨 Diagnostics/QuickFix", mode = { "n", "x" } },
         ["<leader><tab>"] = { name = "+  Tab", mode = "n" },
+        ["<leader>z"] = { name = "+  Telekasten", mode = "n" },
       },
     },
   },
