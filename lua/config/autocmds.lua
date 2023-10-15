@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.wo.conceallevel = 0
     vim.wo.wrap = true
     vim.wo.linebreak = true
-    vim.b.autoformat = false
+    -- vim.b.autoformat = false
   end,
 })
 

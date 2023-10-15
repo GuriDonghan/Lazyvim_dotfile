@@ -240,6 +240,15 @@ return {
             return vim.fs.find({ ".luacheckrc" }, { path = ctx.filename, upward = true })[1]
           end,
         },
+        markdownlint = {
+          args = {
+            "--disable",
+            "MD041",
+            "MD013",
+            "MD018",
+            "--",
+          },
+        },
       },
     },
   },
