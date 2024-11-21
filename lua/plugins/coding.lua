@@ -1,22 +1,6 @@
 return {
-  -- huggingface
-  -- {
-  --   "huggingface/hfcc.nvim",
-  --   opts = {
-  --     api_token = "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",
-  --     model = "bigcode/starcoder",
-  --     query_params = {
-  --       max_new_tokens = 200,
-  --     },
-  --   },
-  --   init = function()
-  --     vim.api.nvim_create_user_command("StarCoder", function()
-  --       require("hfcc.completion").complete()
-  --     end, {})
-  --   end,
-  -- },
 
-  -- Github Copilot (don't use Copilot CMP)
+  -- --NOTE: Github Copilot (don't use Copilot CMP)
   -- {
   --   "zbirenbaum/copilot.lua",
   --   cmd = "Copilot",
@@ -25,67 +9,18 @@ return {
   --     suggestion = {
   --       auto_trigger = true,
   --       debounce = 150,
-  --       keymap = {
-  --         accept = "<tab>",
-  --         accept_word = "<C-l>",
-  --         accept_line = "<C-j>",
-  --         next = "<C-x>",
-  --         prev = "<C-z>",
-  --         dismiss = "<C-c>",
-  --       },
+  --       -- keymap = {
+  --       --   accept = "<tab>",
+  --       --   accept_word = "<C-l>",
+  --       --   accept_line = "<C-j>",
+  --       --   next = "<C-x>",
+  --       --   prev = "<C-z>",
+  --       --   dismiss = "<C-c>",
+  --       -- },
   --     },
-  --     filetype = {
-  --       markdown = true,
-  --     },
+  --     filetypes = { ["*"] = true },
   --   },
   -- },
-
-  {
-    "smjonas/inc-rename.nvim",
-    cmd = "IncRename",
-    config = true,
-  },
-
-  --wtf.nvim
-  {
-    "piersolenski/wtf.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-    event = "VeryLazy",
-    opts = { language = "korean" },
-    keys = {
-      {
-        "gw",
-        mode = { "n" },
-        function()
-          require("wtf").ai()
-        end,
-        desc = "Debug diagnostic with AI",
-      },
-      {
-        mode = { "n" },
-        "gW",
-        function()
-          require("wtf").search()
-        end,
-        desc = "Search diagnostic with Google",
-      },
-    },
-  },
-
-  -- Python managing Virtual Environments:
-  {
-    "ChristianChiarulli/swenv.nvim",
-    opts = {},
-    keys = {
-      {
-        "<leader>cc",
-        "<cmd>lua require('swenv.api').pick_venv()<cr>",
-        desc = "Conda virtual env",
-      },
-    },
-  },
 
   -- -- lnsert Github marks to lualine for Copilot
   -- {
@@ -95,10 +30,10 @@ return {
   --   opts = function(_, opts)
   --     local Util = require("lazyvim.util")
   --     local colors = {
-  --       [""] = Util.fg("Special"),
-  --       ["Normal"] = Util.fg("Special"),
-  --       ["Warning"] = Util.fg("DiagnosticError"),
-  --       ["InProgress"] = Util.fg("DiagnosticWarn"),
+  --       [""] = Util.ui.fg("Special"),
+  --       ["Normal"] = Util.ui.fg("Special"),
+  --       ["Warning"] = Util.ui.fg("DiagnosticError"),
+  --       ["InProgress"] = Util.ui.fg("DiagnosticWarn"),
   --     }
   --     table.insert(opts.sections.lualine_x, 2, {
   --       function()
@@ -118,68 +53,44 @@ return {
   --   end,
   -- },
 
-  -- {
-  --   "smjonas/inc-rename.nvim",
-  --   cmd = "IncRename",
-  --   config = true,
-  -- },
+  -- better indentation behavior
+  -- by default, vim has some weird indentation behavior in some edge cases,
+  -- which this plugin fixes
+  { "Vimjas/vim-python-pep8-indent" },
 
-  -- {
-  --   "ThePrimeagen/refactoring.nvim",
-  --   keys = {
-  --     {
-  --       "<leader>r",
-  --       function()
-  --         require("refactoring").select_refactor()
-  --       end,
-  --       desc = "Refactoring",
-  --       mode = "v",
-  --       noremap = true,
-  --       silent = true,
-  --       expr = false,
-  --     },
-  --   },
-  --   opts = {},
-  -- },
+  -- smart selection, smart increnmental selection
+  -- TODO: Nvim-Treesitter uptdate 확인 필요
+  {
+    "sustech-data/wildfire.nvim",
+    event = "VeryLazy",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("wildfire").setup({
+        surrounds = {
+          { "(", ")" },
+          { "{", "}" },
+          { "<", ">" },
+          { "[", "]" },
+        },
+        keymaps = {
+          init_selection = "<CR>",
+          node_incremental = "<CR>",
+          node_decremental = "<BS>",
+          -- init_selection = "v",
+          -- node_incremental = "v",
+          -- node_decremental = "V",
+        },
+        filetype_exclude = { "qf" }, --keymaps will be unset in excluding filetypes
+      })
+    end,
+  },
 
   {
     "nvim-cmp",
     dependencies = { "hrsh7th/cmp-emoji" },
-    ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
       local cmp = require("cmp")
       opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
     end,
-  },
-
-  -- Github Copilot (setting)
-  {
-    "zbirenbaum/copilot.lua",
-    opts = {
-      suggestion = {
-        enable = true,
-        auto_trigger = true,
-        debounce = 150,
-        keymap = {
-          accept = "<tab>",
-          accept_word = "<C-l>",
-          accept_line = "<C-j>",
-          next = "<C-x>",
-          prev = "<C-z>",
-          dismiss = "<C-c>",
-        },
-      },
-      filetype = {
-        ["*"] = true,
-      },
-    },
-  },
-
-  -- better diffing
-  {
-    "sindrets/diffview.nvim",
-    cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles" },
-    opts = {},
-    keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "DiffView" } },
   },
 }

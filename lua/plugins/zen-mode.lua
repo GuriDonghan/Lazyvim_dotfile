@@ -9,12 +9,12 @@ return {
         window = {
           width = 0.85,
         },
-        plugins = {
-          wezterm = {
-            enabled = false,
-            font = "+2",
-          },
-        },
+        -- plugins = {
+        --   wezterm = {
+        --     enabled = true,
+        --     font = "+2",
+        --   },
+        -- },
       })
     end,
   },
@@ -24,6 +24,7 @@ return {
       -- your configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
+      context = 15,
     },
   },
 }

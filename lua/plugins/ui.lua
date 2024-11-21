@@ -1,115 +1,92 @@
 return {
 
+  -- modify nvim-cmp style
+  -- {
+  --   "hrsh7th/nvim-cmp",
+  --   event = "InsertEnter",
+  --   opts = function(_, opts)
+  --     local cmp = require("cmp")
+
+  --     cmp.setup({
+  --       window = {
+  --         completion = {
+  --           border = "rounded", -- single|rounded|none
+  --           -- custom colors
+  --           -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLineBG,Search:None", -- BorderBG|FloatBorder
+  --           side_padding = 0, -- padding at sides
+  --           col_offset = -3, -- move floating box left or right
+  --         },
+  --         documentation = {
+  --           border = "rounded", -- single|rounded|none
+  --           -- custom colors
+  --           -- winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLineBG,Search:None", -- BorderBG|FloatBorder
+  --         },
+  --         formatting = {
+  --           fields = { "kind", "abbr", "menu" },
+  --           format = function(entry, vim_item)
+  --             local kind = require("lspkind").cmp_format({ mode = "symbol_text", maxwidth = 50 })(entry, vim_item)
+  --             local strings = vim.split(kind.kind, "%s", { trimempty = true })
+
+  --             kind.kind = " " .. (cmp_kinds[strings[2]] or "") .. " "
+  --             kind.menu = "    (" .. (strings[2] or "") .. ")"
+
+  --             return kind
+  --           end,
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- },
+
   -- floating winbar
-  {
-    "b0o/incline.nvim",
-    event = "BufReadPre",
-    enabled = true,
-    config = function()
-      local colors = require("tokyonight.colors").setup()
-      require("incline").setup({
-        highlight = {
-          groups = {
-            InclineNormal = { guibg = "#FC56B1", guifg = colors.black },
-            InclineNormalNC = { guifg = "#FC56B1", guibg = colors.black },
-          },
-        },
-        window = { margin = { vertical = 0, horizontal = 1 } },
-        render = function(props)
-          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-          local icon, color = require("nvim-web-devicons").get_icon_color(filename)
-          return { { icon, guifg = color }, { " " }, { filename } }
-        end,
-      })
-    end,
-  },
-
-  -- auto-resize windows
-  {
-    "anuvyklack/windows.nvim",
-    event = "WinNew",
-    enabled = false,
-    dependencies = {
-      { "anuvyklack/middleclass" },
-      { "anuvyklack/animation.nvim", enabled = false },
-    },
-    keys = { { "<leader>wZ", "<cmd>WindowsMaximize<cr>", desc = "Zoom" } },
-    config = function()
-      vim.o.winwidth = 5
-      vim.o.equalalways = false
-      require("windows").setup({
-        animation = { enable = false, duration = 150 },
-      })
-    end,
-  },
-
-  -- scrollbar
-  -- { "lewis6991/satellite.nvim", opts = {}, event = "VeryLazy", enabled = true },
-  {
-    "echasnovski/mini.map",
-    main = "mini.map",
-    event = "VeryLazy",
-    enabled = false,
-    config = function()
-      local map = require("mini.map")
-      map.setup({
-        integrations = {
-          map.gen_integration.builtin_search(),
-          map.gen_integration.gitsigns(),
-          map.gen_integration.diagnostic(),
-        },
-      })
-      map.open()
-    end,
-  },
-  {
-    "petertriho/nvim-scrollbar",
-    event = "BufReadPost",
-    enabled = false,
-    config = function()
-      local scrollbar = require("scrollbar")
-      local colors = require("tokyonight.colors").setup()
-      scrollbar.setup({
-        handle = { color = colors.bg_highlight },
-        excluded_filetypes = { "prompt", "TelescopePrompt", "noice", "notify" },
-        marks = {
-          Search = { color = colors.orange },
-          Error = { color = colors.error },
-          Warn = { color = colors.warning },
-          Info = { color = colors.info },
-          Hint = { color = colors.hint },
-          Misc = { color = colors.purple },
-        },
-      })
-    end,
-  },
+  -- {
+  --   "b0o/incline.nvim",
+  --   event = "BufReadPre",
+  --   enabled = true,
+  --   config = function()
+  --     local colors = require("tokyonight.colors").setup()
+  --     require("incline").setup({
+  --       highlight = {
+  --         groups = {
+  --           InclineNormal = { guibg = "#FC56B1", guifg = colors.black },
+  --           InclineNormalNC = { guifg = "#FC56B1", guibg = colors.black },
+  --         },
+  --       },
+  --       window = { margin = { vertical = 0, horizontal = 1 } },
+  --       render = function(props)
+  --         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+  --         local icon, color = require("nvim-web-devicons").get_icon_color(filename)
+  --         return { { icon, guifg = color }, { " " }, { filename } }
+  --       end,
+  --     })
+  --   end,
+  -- },
 
   -- style windows with different colorschemes
-  {
-    "folke/styler.nvim",
-    event = "VeryLazy",
-    enabled = false,
-    opts = {
-      themes = {
-        -- markdown = { colorscheme = "tokyonight-storm" },
-        markdown = { colorscheme = "tokyonight-night" },
-        -- norg = { colorscheme = "tokyonight-storm" },
-        norg = { colorscheme = "kanagawa-lotus" },
-        help = { colorscheme = "nightfox", background = "dark" },
-      },
-    },
-  },
+  -- {
+  --   "folke/styler.nvim",
+  --   event = "VeryLazy",
+  --   enabled = false,
+  --   opts = {
+  --     themes = {
+  --       markdown = { colorscheme = "tokyonight-moon" },
+  --       -- markdown = { colorscheme = "tokyonight-night" },
+  --       norg = { colorscheme = "tokyonight-storm" },
+  --       -- norg = { colorscheme = "kanagawa-lotus" },
+  --       help = { colorscheme = "tokyonight-night" },
+  --     },
+  --   },
+  -- },
 
-  -- silly drops
+  --NOTE: LSP HoverDoc make border line
   {
-    "folke/drop.nvim",
-    enabled = false,
-    event = "VeryLazy",
-    config = function()
-      math.randomseed(os.time())
-      -- local theme = ({ "stars", "snow" })[math.random(1, 3)]
-      require("drop").setup({ theme = "spring" })
+    "folke/noice.nvim",
+    opts = function(_, opts)
+      opts.presets.lsp_doc_border = true
     end,
+  },
+  {
+    "rcarriga/nvim-notify",
   },
 
   -- -- lualine
@@ -123,38 +100,4 @@ return {
   --     })
   --   end,
   -- },
-
-  -- colorizer
-  {
-    "NvChad/nvim-colorizer.lua",
-    event = "BufReadPre",
-    opts = {
-      filetypes = { "*", "!lazy" },
-      buftype = { "*", "!prompt", "!nofile" },
-      user_default_options = {
-        RGB = true, -- #RGB hex codes
-        RRGGBB = true, -- #RRGGBB hex codes
-        names = false, -- "Name" codes like Blue
-        RRGGBBAA = true, -- #RRGGBBAA hex codes
-        AARRGGBB = false, -- 0xAARRGGBB hex codes
-        rgb_fn = true, -- CSS rgb() and rgba() functions
-        hsl_fn = true, -- CSS hsl() and hsla() functions
-        css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-        css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-        -- Available modes: foreground, background
-        -- Available modes for `mode`: foreground, background,  virtualtext
-        mode = "background", -- Set the display mode.
-        virtualtext = "■",
-      },
-    },
-  },
-
-  -- nvim-ts-rainbow2
-  {
-    "nvim-treesitter/nvim-treesitter",
-    dependencies = {
-      "HiPhish/nvim-ts-rainbow2",
-    },
-    opts = { rainbow = { enable = true } },
-  },
 }

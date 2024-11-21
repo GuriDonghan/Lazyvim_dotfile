@@ -22,17 +22,6 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
   end,
 })
 
--- create directories when needed, when saving a file
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = vim.api.nvim_create_augroup("better_backup", { clear = true }),
-  callback = function(event)
-    local file = vim.loop.fs_realpath(event.match) or event.match
-    local backup = vim.fn.fnamemodify(file, ":p:~:h")
-    backup = backup:gsub("[/\\]", "%%")
-    vim.go.backupext = backup
-  end,
-})
-
 -- Fix conceallevel for json & help files
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "json", "jsonc" },
@@ -47,28 +36,62 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "markdown" },
   callback = function()
     vim.wo.spell = false
-    vim.wo.conceallevel = 0
+    vim.wo.conceallevel = 1
     vim.wo.wrap = true
     vim.wo.linebreak = true
-    -- vim.b.autoformat = false
+    vim.b.autoformat = false
   end,
 })
 
--- require("lazyvim.util").on_attach(function(_, buffer)
---   -- create the autocmd to show diagnostics
---   vim.api.nvim_create_autocmd("CursorHold", {
---     group = vim.api.nvim_create_augroup("_auto_diag", { clear = true }),
---     buffer = buffer,
---     callback = function()
---       local opts = {
---         focusable = false,
---         close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
---         border = "rounded",
---         source = "always",
---         prefix = " ",
---         scope = "cursor",
---       }
---       vim.diagnostic.open_float(nil, opts)
---     end,
---   })
--- end)
+-- Disable New line Comment
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    vim.opt.formatoptions:remove({ "c", "r", "o" })
+  end,
+  desc = "Disable New Line Comment",
+})
+
+-- TEST: Advandced LSP Progress
+---@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
+local progress = vim.defaulttable()
+vim.api.nvim_create_autocmd("LspProgress", {
+  ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
+    if not client or type(value) ~= "table" then
+      return
+    end
+    local p = progress[client.id]
+
+    for i = 1, #p + 1 do
+      if i == #p + 1 or p[i].token == ev.data.params.token then
+        p[i] = {
+          token = ev.data.params.token,
+          msg = ("[%3d%%] %s%s"):format(
+            value.kind == "end" and 100 or value.percentage or 100,
+            value.title or "",
+            value.message and (" **%s**"):format(value.message) or ""
+          ),
+          done = value.kind == "end",
+        }
+        break
+      end
+    end
+
+    local msg = {} ---@type string[]
+    progress[client.id] = vim.tbl_filter(function(v)
+      return table.insert(msg, v.msg) or not v.done
+    end, p)
+
+    local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
+    vim.notify(table.concat(msg, "\n"), "info", {
+      id = "lsp_progress",
+      title = client.name,
+      opts = function(notif)
+        notif.icon = #progress[client.id] == 0 and " "
+          or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
+      end,
+    })
+  end,
+})
