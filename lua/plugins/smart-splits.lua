@@ -1,10 +1,10 @@
 return {
   "mrjones2014/smart-splits.nvim",
   lazy = false,
-  event = function()
-    local term = vim.trim((vim.env.TERM_PROGRAM or ""):lower())
-    return term == "tmux" or term == "wezterm" or vim.env.KITTY_LISTEN_ON and "VeryLazy" or nil
-  end,
+  -- event = function()
+  --   local term = vim.trim((vim.env.TERM_PROGRAM or ""):lower())
+  --   return term == "tmux" or term == "wezterm" or vim.env.KITTY_LISTEN_ON and "VeryLazy" or nil
+  -- end,
   config = function()
     require("smart-splits").setup({
       ignored_filetypes = { "nofile", "quickfix", "qf", "prompt" },

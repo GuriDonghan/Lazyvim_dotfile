@@ -1,4 +1,119 @@
 return {
+  "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
+
+  -- TEST: Neotab
+  {
+    "kawre/neotab.nvim",
+    event = "InsertEnter",
+    opts = {
+      -- configuration goes here
+      {
+        tabkey = "<Tab>",
+        act_as_tab = true,
+        behavior = "nested", ---@type ntab.behavior
+        pairs = { ---@type ntab.pair[]
+          { open = "(", close = ")" },
+          { open = "[", close = "]" },
+          { open = "{", close = "}" },
+          { open = "'", close = "'" },
+          { open = '"', close = '"' },
+          { open = "`", close = "`" },
+          { open = "<", close = ">" },
+        },
+        exclude = {},
+        smart_punctuators = {
+          enabled = false,
+          semicolon = {
+            enabled = false,
+            ft = { "cs", "c", "cpp", "java" },
+          },
+          escape = {
+            enabled = false,
+            triggers = {}, ---@type table<string, ntab.trigger>
+          },
+        },
+      },
+    },
+  },
+
+  -- HACK: Tabout in ',",`,(,[,{'
+  -- {
+  --   "abecodes/tabout.nvim",
+  --   lazy = false,
+  --   config = function()
+  --     require("tabout").setup({
+  --       tabkey = "<Tab>",             -- key to trigger tabout, set to an empty string to disable
+  --       backwards_tabkey = "<S-Tab>", -- key to trigger backwards tabout, set to an empty string to disable
+  --       act_as_tab = true,            -- shift content if tab out is not possible
+  --       act_as_shift_tab = false,     -- reverse shift content if tab out is not possible (if your keyboard/terminal supports <S-Tab>)
+  --       default_tab = "<C-t>",        -- shift default action (only at the beginning of a line, otherwise <TAB> is used)
+  --       default_shift_tab = "<C-d>",  -- reverse shift default action,
+  --       enable_backwards = true,      -- well ...
+  --       completion = true,            -- if the tabkey is used in a completion pum
+  --       tabouts = {
+  --         { open = "'", close = "'" },
+  --         { open = '"', close = '"' },
+  --         { open = "`", close = "`" },
+  --         { open = "(", close = ")" },
+  --         { open = "[", close = "]" },
+  --         { open = "{", close = "}" },
+  --       },
+  --       ignore_beginning = true, --[[ if the cursor is at the beginning of a filled element it will rather tab out than shift the content ]]
+  --       exclude = {}, -- tabout will ignore these filetypes
+  --     })
+  --   end,
+  --   dependencies = { -- These are optional
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "L3MON4D3/LuaSnip",
+  --     "hrsh7th/nvim-cmp",
+  --   },
+  --   opt = true,              -- Set this to true if the plugin is optional
+  --   event = "InsertCharPre", -- Set the event to 'InsertCharPre' for better compatibility
+  --   priority = 1000,
+  --   specs = {
+  --     {
+  --       "hrsh7th/nvim-cmp",
+  --       optional = true,
+  --       opts = function(_, opts)
+  --         local cmp = require("cmp")
+  --         local snippet_jumpable = function()
+  --           return vim.snippet and vim.snippet.active({ direction = 1 })
+  --         end
+  --         local snippet_jump = vim.schedule_wrap(function()
+  --           vim.snippet.jump(1)
+  --         end)
+  --         local luasnip_avail, luasnip = pcall(require, "luasnip")
+  --         if luasnip_avail then
+  --           snippet_jumpable = luasnip.expand_or_jumpable
+  --           snippet_jump = luasnip.expand_or_jump
+  --         end
+  --         opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
+  --           if cmp.visible() then
+  --             cmp.select_next_item()
+  --           elseif vim.api.nvim_get_mode() ~= "c" and snippet_jumpable() then
+  --             snippet_jump()
+  --           elseif not luasnip_avail and pcall(vim.snippet.active, { direction = 1 }) then
+  --             vim.snippet.jump(1)
+  --           else
+  --             fallback()
+  --           end
+  --         end, { "i", "s" })
+  --
+  --         opts.mapping["<S-Tab>"] = cmp.mapping(function(fallback)
+  --           if cmp.visible() then
+  --             cmp.select_prev_item()
+  --           elseif vim.api.nvim_get_mode() ~= "c" and snippet_jumpable() then
+  --             snippet_jump()
+  --           elseif not luasnip_avail and pcall(vim.snippet.active, { direction = -1 }) then
+  --             vim.snippet.jump(-1)
+  --           else
+  --             fallback()
+  --           end
+  --         end, { "i", "s" })
+  --       end,
+  --     },
+  --   },
+  -- },
 
   -- --NOTE: Github Copilot (don't use Copilot CMP)
   -- {

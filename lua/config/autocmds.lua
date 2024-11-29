@@ -22,14 +22,14 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
   end,
 })
 
--- Fix conceallevel for json & help files
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "json", "jsonc" },
-  callback = function()
-    vim.wo.spell = false
-    vim.wo.conceallevel = 0
-  end,
-})
+-- -- Fix conceallevel for json & help files
+-- vim.api.nvim_create_autocmd({ "FileType" }, {
+--   pattern = { "json", "jsonc" },
+--   callback = function()
+--     vim.wo.spell = false
+--     vim.wo.conceallevel = 0
+--   end,
+-- })
 
 -- Fix markdown files
 vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.wo.conceallevel = 1
     vim.wo.wrap = true
     vim.wo.linebreak = true
-    vim.b.autoformat = false
+    vim.b.autoformat = true
   end,
 })
 
