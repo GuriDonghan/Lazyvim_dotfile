@@ -6,8 +6,11 @@ return {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
+    indent = { enabled = false },
+    input = { enabled = true },
     bigfile = { enabled = true },
-    notify = { enabled = true },
+    animate = { enabled = false },
+    scroll = { enabled = true },
 
     -- NOTE: Notifier
     notifier = {
@@ -42,21 +45,35 @@ return {
   ╚═╝  ╚═══╝ ╚═╝  ╚═╝   ╚═══╝   ╚══════╝ ╚═╝  ╚═╝]],
       },
       sections = {
+        -- { section = "header" },
+        -- { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
+        -- { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+        -- { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+        -- { section = "startup" },
         { section = "header" },
-        -- { section = "keys", gap = 1, padding = 1 },
-        { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
-        { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-        { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+        {
+          pane = 2,
+          section = "terminal",
+          cmd = "square",
+          height = 5,
+          padding = 1,
+        },
+        { section = "keys", gap = 1, padding = 1 },
+        { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
+        { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+        {
+          pane = 2,
+          icon = " ",
+          title = "Git Status",
+          section = "terminal",
+          enabled = vim.fn.isdirectory(".git") == 1,
+          cmd = "git status --short --branch --renames",
+          height = 5,
+          padding = 1,
+          ttl = 5 * 60,
+          indent = 3,
+        },
         { section = "startup" },
-        -- {
-        --   section = "terminal",
-        --   cmd = "pokemon-colorscripts -r --no-title; sleep .1",
-        --   random = 10,
-        --   pane = 2,
-        --   indent = 4,
-        --   height = 30,
-        --   padding = 5,
-        -- },
       },
     },
     sytles = {
@@ -87,4 +104,92 @@ return {
       },
     },
   },
+  -- keys = {
+  --   {
+  --     "<leader>z",
+  --     function()
+  --       Snacks.zen()
+  --     end,
+  --     desc = "Toggle Zen Mode",
+  --   },
+  --   {
+  --     "<leader>Z",
+  --     function()
+  --       Snacks.zen.zoom()
+  --     end,
+  --     desc = "Toggle Zoom",
+  --   },
+  --   {
+  --     "<leader>.",
+  --     function()
+  --       Snacks.scratch()
+  --     end,
+  --     desc = "Toggle Scratch Buffer",
+  --   },
+  --   {
+  --     "<leader>S",
+  --     function()
+  --       Snacks.scratch.select()
+  --     end,
+  --     desc = "Select Scratch Buffer",
+  --   },
+  --   {
+  --     "<leader>n",
+  --     function()
+  --       Snacks.notifier.show_history()
+  --     end,
+  --     desc = "Notification History",
+  --   },
+  --   {
+  --     "<leader>bd",
+  --     function()
+  --       Snacks.bufdelete()
+  --     end,
+  --     desc = "Delete Buffer",
+  --   },
+  --   {
+  --     "<leader>cR",
+  --     function()
+  --       Snacks.rename.rename_file()
+  --     end,
+  --     desc = "Rename File",
+  --   },
+  --   {
+  --     "<leader>gB",
+  --     function()
+  --       Snacks.gitbrowse()
+  --     end,
+  --     desc = "Git Browse",
+  --   },
+  --   {
+  --     "<leader>gb",
+  --     function()
+  --       Snacks.git.blame_line()
+  --     end,
+  --     desc = "Git Blame Line",
+  --   },
+  --   {
+  --     "<leader>gf",
+  --     function()
+  --       Snacks.lazygit.log_file()
+  --     end,
+  --     desc = "Lazygit Current File History",
+  --   },
+  --   {
+  --     "]]",
+  --     function()
+  --       Snacks.words.jump(vim.v.count1)
+  --     end,
+  --     desc = "Next Reference",
+  --     mode = { "n", "t" },
+  --   },
+  --   {
+  --     "[[",
+  --     function()
+  --       Snacks.words.jump(-vim.v.count1)
+  --     end,
+  --     desc = "Prev Reference",
+  --     mode = { "n", "t" },
+  --   },
+  -- },
 }

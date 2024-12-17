@@ -11,6 +11,8 @@ vim.g.mapleader = " "
 
 vim.g.maplocalleader = ","
 
+vim.g.snacks_animate = false
+
 vim.opt.termguicolors = true
 
 vim.opt.guicursor =

@@ -191,21 +191,18 @@ return {
           init_selection = "<CR>",
           node_incremental = "<CR>",
           node_decremental = "<BS>",
-          -- init_selection = "v",
-          -- node_incremental = "v",
-          -- node_decremental = "V",
         },
         filetype_exclude = { "qf" }, --keymaps will be unset in excluding filetypes
       })
     end,
   },
 
-  {
-    "nvim-cmp",
-    dependencies = { "hrsh7th/cmp-emoji" },
-    opts = function(_, opts)
-      local cmp = require("cmp")
-      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
-    end,
-  },
+  -- {
+  --   "nvim-cmp",
+  --   dependencies = { "hrsh7th/cmp-emoji" },
+  --   opts = function(_, opts)
+  --     local cmp = require("cmp")
+  --     opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" } }))
+  --   end,
+  -- },
 }
