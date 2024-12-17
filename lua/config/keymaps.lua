@@ -41,7 +41,7 @@ else
     { "<leader>O", "<cmd>Oil --float<CR>", desc = "Oil file explorer" },
     {
       { "<leader>m", group = "markdown", icon = "" },
-      { "<leader>mt", "<cmd>MarkdownPreviewToggle<CR>", desc = "Markdown Preview" },
+      -- { "<leader>mt", "<cmd>MarkdownPreviewToggle<CR>", desc = "Markdown Preview" },
     },
     {
       -- NOTE: telekasten 플러그인 키맵
